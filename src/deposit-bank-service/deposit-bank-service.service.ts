@@ -7,8 +7,8 @@ import { DepositTransactionAccountInterface, DepositTransactionAccount } from '.
 export class DepositBankService implements DepositTransactionAccountInterface {
   async perform(params: DepositTransactionAccount.Input): Promise<DepositTransactionAccount.Output> {
     return {
-      id: "any_transfer_id",
-      object: BankServiceEnum.TRNS,
+      id: "any_deposit_id",
+      object: BankServiceEnum.DPST,
       amount: {
         currency: CurrencyEnum.BRL,
         value: 250.78

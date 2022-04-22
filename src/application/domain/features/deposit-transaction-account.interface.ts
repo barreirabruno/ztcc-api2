@@ -17,7 +17,7 @@ export namespace DepositTransactionAccount {
   }
   export type Output = {
     id: string,
-    object: BankServiceEnum.TRNS,
+    object: BankServiceEnum.DPST,
     amount: {
       currency: string,
       value: number

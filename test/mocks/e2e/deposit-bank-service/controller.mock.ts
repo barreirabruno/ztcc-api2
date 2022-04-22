@@ -4,14 +4,14 @@ export const controllerParamsMock = {
   },
   "amount": {
       "currency": "USD",
-      "value": "225.00"
+      "value": 225.00
   },
   "description": "any_description_for_this_transfer"
 }
 
 export const controllerResponseMock = {
-  "id": "any_transfer_id",
-  "object": "transfer",
+  "id": "any_deposit_id",
+  "object": "deposit",
   "amount": {
       "currency": "BRL",
       "value": 250.78
