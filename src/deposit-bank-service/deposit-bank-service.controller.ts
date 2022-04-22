@@ -1,4 +1,4 @@
-import { Body, Controller, Post } from '@nestjs/common';
+import { Body, Controller, Injectable, Post } from '@nestjs/common';
 
 enum BankServiceEnum {
   TRNS = "transfer",
@@ -8,6 +8,10 @@ enum BankServiceEnum {
 enum CurrencyEnum {
   BRL = "BRL",
   USD = "USD",
+}
+
+export interface DepositTransactionAccountInterface {
+  perform: (params: DepositTransactionAccount.Input) => Promise<DepositTransactionAccount.Output>
 }
 
 export namespace DepositTransactionAccount {
@@ -40,11 +44,9 @@ export namespace DepositTransactionAccount {
   }
 }
 
-@Controller('deposit-bank-service')
-export class DepositBankServiceController {
-
-  @Post()
-  postDepositTransactionAccount(@Body() httpRequest: DepositTransactionAccount.Input): DepositTransactionAccount.Output {
+@Injectable()
+export class DepositBankService implements DepositTransactionAccountInterface {
+  async perform(params: DepositTransactionAccount.Input): Promise<DepositTransactionAccount.Output> {
     return {
       id: "any_transfer_id",
       object: BankServiceEnum.TRNS,
@@ -62,5 +64,17 @@ export class DepositBankServiceController {
        }
      }
     }
+  }
+}
+
+@Controller('deposit-bank-service')
+export class DepositBankServiceController {
+  constructor(
+    private readonly depositBankService: DepositBankService
+  ) {}
+
+  @Post()
+  async postDepositTransactionAccount(@Body() httpRequest: DepositTransactionAccount.Input): Promise<DepositTransactionAccount.Output> {
+    return this.depositBankService.perform(httpRequest)
   }
 }
