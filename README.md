@@ -1,73 +1,73 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="200" alt="Nest Logo" /></a>
-</p>
+# ztcc-api2 - microsservice-bank-services-transaction-account
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
+## Project
+Z-Tech code challenge, api2.
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://coveralls.io/github/nestjs/nest?branch=master" target="_blank"><img src="https://coveralls.io/repos/github/nestjs/nest/badge.svg?branch=master#9" alt="Coverage" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+## Description:
+Service responsible to perform bank services. The service perform tasks such as deposit a value to a transaction account, transfer values between active transaction accounts. Check the current features section to see what you can do by now and the roadmap section for features coming soon.
 
-## Description
+## Tech stack
+This service is built with:
+    - Typescript
+    - NodeJS
+    - NestJS
+    - Jest
+    - TypeORM
+    - Postgres
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
-
-## Installation
-
-```bash
-$ npm install
+## Run Test Suite
+Run all tests with:
+```
+npm run test
+```
+Run **unit test**:
+```
+npm run test:unit
+```
+Run **integration test**:
+```
+npm run test:integration
+```
+Run test **coverage report**:
+```
+npm run test:cov
 ```
 
-## Running the app
-
-```bash
-# development
-$ npm run start
-
-# watch mode
-$ npm run start:dev
-
-# production mode
-$ npm run start:prod
+## Run the project - with Docker
+```
+docker compose up
 ```
 
-## Test
-
-```bash
-# unit tests
-$ npm run test
-
-# e2e tests
-$ npm run test:e2e
-
-# test coverage
-$ npm run test:cov
+## Run the project - no Docker
+```
+npm install
+```
+Then run the app
+```
+npm run start:local
 ```
 
-## Support
+## Features available
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
+## Features Roadmap
+    - [] Deposit a value to a transaction acount
+    - [] Transfer values between transaction accounts
 
-## Stay in touch
+## Architecture of this service
 
-- Author - [Kamil Myśliwiec](https://kamilmysliwiec.com)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
+## AS IS:
+### Code design
+Check this document for the complete explanation of my design decisions.
+This project uses a layer separation based on Clean architecture, concepts such as depency injection, inversion control and adapters are applied in the project, you can check reading the diagram and the codebase.
 
-## License
+### Database modeling
+Check this document for the complete explanation of my database modeling.
+For simplicity this proof of concept uses MySQL, by now I'm not dicussing scalability or read/write separation on database level. In my experience this kind of decision is taken in colaboration with a database administrator.
 
-Nest is [MIT licensed](LICENSE).
+## TO BE:
+### Code design
+Design and architecture desicisions change with time, here's how I see this architecture decisions evolving for this codebase.
+
+### Database modeling
+It's common to add new databases for cache, incomplete data or to provide better experiences on access external dependencies. here's how I see the database needs for this project evolve.
+
