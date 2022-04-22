@@ -48,4 +48,27 @@ describe('DepositBankServiceController', () => {
     })
     await expect(controller.postDepositTransactionAccount(params)).rejects.toThrow()
   })
+
+  it('should return DepositBankService infos with success', async () => {
+    const mockServiceResponse = {
+      id: "any_transfer_id",
+      object: "transfer",
+      amount: {
+        currency: "BRL",
+        value: 250.78
+      },
+     created: 1405637071,
+     transactionAccountInfos: {
+       source: {
+        vatNumber: "00000000000"
+       },
+       destination: {
+         vatNumher: "00000000000"
+       }
+     }
+    }
+    mockDepositService.perform.mockResolvedValueOnce(mockServiceResponse)
+    const request = await controller.postDepositTransactionAccount(params)
+    expect(request).toEqual(mockServiceResponse)
+  })
 });
