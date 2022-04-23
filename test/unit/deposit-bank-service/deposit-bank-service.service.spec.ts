@@ -2,6 +2,7 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { RequestTransactionAccountApiService } from '../../../src/infra/http/request-transaction-account-api.service';
 import { DepositBankService } from '../../../src/deposit-bank-service/deposit-bank-service.service';
 import { controllerParamsMock } from '../../mocks/e2e';
+import { AxiosResponse } from 'axios';
 
 describe('DepositBankServiceService', () => {
   let service: DepositBankService;
@@ -28,13 +29,36 @@ describe('DepositBankServiceService', () => {
   });
 
   it('should call RequestTransactionAccountApiService with correct params', async () => {
+    const data = { status: 'unavailable' }
+    const response: AxiosResponse<any> = {
+      data,
+      headers: {},
+      config: { url: 'any_url' },
+      status: 200,
+      statusText: 'OK',
+    };
+    mockDepositBankService.execute.mockResolvedValueOnce(response)
     const spyApiCall = jest.spyOn(transactionAccountApiService, 'execute')
 
-    service.perform(controllerParamsMock)
+    await service.perform(controllerParamsMock)
 
     expect(spyApiCall).toHaveBeenCalled()
     expect(spyApiCall).toHaveBeenCalledTimes(1)
     expect(spyApiCall).toHaveBeenCalledWith(controllerParamsMock.destination.vatNumber)
   })
 
+  it('should throw if account status is not available', async () => {
+    const data = { status: 'unavailable' }
+    const response: AxiosResponse<any> = {
+      data,
+      headers: {},
+      config: { url: 'any_url' },
+      status: 200,
+      statusText: 'OK',
+    };
+    mockDepositBankService.execute.mockResolvedValueOnce(response)
+    const request = await service.perform(controllerParamsMock)
+
+    expect(request).toEqual(new Error("Could not process the transaction by now. Please contact support"))
+  })
 });
