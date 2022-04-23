@@ -1,3 +1,4 @@
+import { CurrencyEnum } from './currency-enum-transaction-account'
 import { BankServiceEnum } from './objects-enum-transaction-account'
 
 export interface DepositTransactionAccountInterface {
@@ -17,7 +18,7 @@ export namespace DepositTransactionAccount {
   }
   export type Output = {
     id: string,
-    object: BankServiceEnum.DPST,
+    object: string,
     amount: {
       currency: string,
       value: number
@@ -31,5 +32,5 @@ export namespace DepositTransactionAccount {
        vatNumher: string
      }
    }
-  }
+  } | Error
 }
