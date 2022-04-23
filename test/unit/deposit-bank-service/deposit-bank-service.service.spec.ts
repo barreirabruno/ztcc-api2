@@ -1,7 +1,7 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { RequestTransactionAccountApiService } from '../../../src/infra/http/request-transaction-account-api.service';
 import { DepositBankService } from '../../../src/deposit-bank-service/deposit-bank-service.service';
-import { controllerParamsMock } from '../../mocks/e2e';
+import { controllerParamsMock, controllerResponseMock } from '../../mocks/e2e';
 import { AxiosResponse } from 'axios';
 
 describe('DepositBankServiceService', () => {
@@ -60,5 +60,20 @@ describe('DepositBankServiceService', () => {
     const request = await service.perform(controllerParamsMock)
 
     expect(request).toEqual(new Error("Could not process the transaction by now. Please contact support"))
+  })
+
+  it('should perform a deposit transaction with success', async () => {
+    const data = { status: 'available' }
+    const response: AxiosResponse<any> = {
+      data,
+      headers: {},
+      config: { url: 'any_url' },
+      status: 200,
+      statusText: 'OK',
+    };
+    mockDepositBankService.execute.mockResolvedValueOnce(response)
+
+    const request = await service.perform(controllerParamsMock)
+    expect(request).toEqual(controllerResponseMock)
   })
 });
