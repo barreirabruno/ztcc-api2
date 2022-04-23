@@ -1,5 +1,5 @@
 import { Body, Controller, Post } from '@nestjs/common';
-import { DepositTransactionAccount } from 'src/application/domain/features/deposit-transaction-account.interface';
+import { DepositTransactionAccount } from '../application/domain/features/deposit-transaction-account.interface';
 import { DepositBankService } from './deposit-bank-service.service';
 
 @Controller('account')
