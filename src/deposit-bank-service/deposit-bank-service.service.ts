@@ -1,4 +1,4 @@
-import { ForbiddenException, Injectable } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { CurrencyEnum } from '../application/domain/features/currency-enum-transaction-account';
 import { BankServiceEnum } from '../application/domain/features/objects-enum-transaction-account';
 import { DepositTransactionAccountInterface, DepositTransactionAccount } from '../application/domain/features/deposit-transaction-account.interface';
@@ -10,8 +10,7 @@ export class DepositBankService implements DepositTransactionAccountInterface {
     private readonly transactionAccountRequest: RequestTransactionAccountApiService
   ) {}
 
-  async perform(params: DepositTransactionAccount.Input): Promise<DepositTransactionAccount.Output> {
-    const transactionAccountStatus =  await this.transactionAccountRequest.execute(params.destination.vatNumber)
+  executeTransaction() {
     return {
       id: "any_deposit_id",
       object: BankServiceEnum.DPST,
@@ -28,6 +27,18 @@ export class DepositBankService implements DepositTransactionAccountInterface {
          vatNumher: "00000000000"
        }
      }
+    }
+  }
+
+  async perform(params: DepositTransactionAccount.Input): Promise<DepositTransactionAccount.Output | Error> {
+    try {
+      const {data} =  await this.transactionAccountRequest.execute(params.destination.vatNumber)
+      if(data === undefined) return new Error("Could not process the transaction by now. Please contact support")
+      const { status } = data
+      if(status !== 'available') return new Error("Could not process the transaction by now. Please contact support")
+      return this.executeTransaction()
+    } catch (error) {
+      return new Error(error)
     }
   }
 }
