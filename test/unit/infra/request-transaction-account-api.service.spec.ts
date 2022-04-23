@@ -1,6 +1,6 @@
 import { HttpService } from '@nestjs/axios';
 import { Test, TestingModule } from '@nestjs/testing';
-import { RequestTransactionAccountApiService } from '../../../src/infra/request-transaction-account-api.service';
+import { RequestTransactionAccountApiService } from '../../../src/infra/http/request-transaction-account-api.service';
 
 describe('RequestTransactionAccountApiService', () => {
   let service: RequestTransactionAccountApiService;

@@ -2,7 +2,7 @@ import { ForbiddenException, Injectable } from '@nestjs/common';
 import { CurrencyEnum } from '../application/domain/features/currency-enum-transaction-account';
 import { BankServiceEnum } from '../application/domain/features/objects-enum-transaction-account';
 import { DepositTransactionAccountInterface, DepositTransactionAccount } from '../application/domain/features/deposit-transaction-account.interface';
-import { RequestTransactionAccountApiService } from '../infra/request-transaction-account-api.service';
+import { RequestTransactionAccountApiService } from '../infra/http/request-transaction-account-api.service';
 
 @Injectable()
 export class DepositBankService implements DepositTransactionAccountInterface {
