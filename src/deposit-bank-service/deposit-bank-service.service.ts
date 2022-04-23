@@ -12,8 +12,6 @@ export class DepositBankService implements DepositTransactionAccountInterface {
 
   async perform(params: DepositTransactionAccount.Input): Promise<DepositTransactionAccount.Output> {
     const transactionAccountStatus =  await this.transactionAccountRequest.execute(params.destination.vatNumber)
-    if(transactionAccountStatus.data.status !== 'active' ) throw new ForbiddenException()
-    // const executeDeposit = "[RECORD CREDIT TRANSACTION ON DATABASE]"
     return {
       id: "any_deposit_id",
       object: BankServiceEnum.DPST,
