@@ -4,9 +4,16 @@ import { DepositBankService } from '../../../src/deposit-bank-service/deposit-ba
 describe('DepositBankServiceService', () => {
   let service: DepositBankService;
 
+  const mockDepositBankService = {
+    execute: jest.fn()
+  }
+
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
-      providers: [DepositBankService],
+      providers: [DepositBankService, {
+        provide: DepositBankService,
+        useValue: mockDepositBankService
+      }],
     }).compile();
 
     service = module.get<DepositBankService>(DepositBankService);
