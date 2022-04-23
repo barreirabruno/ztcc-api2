@@ -22,14 +22,9 @@ describe('DepositBankServiceService', () => {
 
     service = module.get<DepositBankService>(DepositBankService);
     transactionAccountApiService = module.get<RequestTransactionAccountApiService>(RequestTransactionAccountApiService)
-  });
 
-  it('should be defined', () => {
-    expect(service).toBeDefined();
-  });
 
-  it('should call RequestTransactionAccountApiService with correct params', async () => {
-    const data = { status: 'unavailable' }
+    const data = { status: 'available' }
     const response: AxiosResponse<any> = {
       data,
       headers: {},
@@ -37,7 +32,18 @@ describe('DepositBankServiceService', () => {
       status: 200,
       statusText: 'OK',
     };
-    mockDepositBankService.execute.mockResolvedValueOnce(response)
+    mockDepositBankService.execute.mockResolvedValue(response)
+  });
+
+  afterEach(() => {
+    jest.clearAllMocks()
+  })
+
+  it('should be defined', () => {
+    expect(service).toBeDefined();
+  });
+
+  it('should call RequestTransactionAccountApiService with correct params', async () => {
     const spyApiCall = jest.spyOn(transactionAccountApiService, 'execute')
 
     await service.perform(controllerParamsMock)
@@ -63,16 +69,6 @@ describe('DepositBankServiceService', () => {
   })
 
   it('should perform a deposit transaction with success', async () => {
-    const data = { status: 'available' }
-    const response: AxiosResponse<any> = {
-      data,
-      headers: {},
-      config: { url: 'any_url' },
-      status: 200,
-      statusText: 'OK',
-    };
-    mockDepositBankService.execute.mockResolvedValueOnce(response)
-
     const request = await service.perform(controllerParamsMock)
     expect(request).toEqual(controllerResponseMock)
   })
