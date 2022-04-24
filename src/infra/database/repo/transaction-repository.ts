@@ -8,7 +8,7 @@ export class TransactionRepository {
     private connection: Connection
   ) {}
 
-  async executeBankTransaction(transaction: any) {
+  async executeBankTransaction(transaction: any): Promise<BankTransactionObject[]>  {
     const newTransaction = this.connection.getRepository(BankTransactionObject).create(transaction)
     const queryRunner = this.connection.createQueryRunner()
 
@@ -17,6 +17,7 @@ export class TransactionRepository {
     try {
       await queryRunner.manager.save(newTransaction)
       await queryRunner.commitTransaction()
+      return newTransaction
     } catch (error) {
       await queryRunner.rollbackTransaction()
     } finally {
