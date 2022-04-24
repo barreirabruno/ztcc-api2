@@ -1,5 +1,5 @@
 db:
   host: 'localhost'
   username: 'postgres'
-  password: 'docker123'
+  password: 'docker@docker'
   synchronize: true
