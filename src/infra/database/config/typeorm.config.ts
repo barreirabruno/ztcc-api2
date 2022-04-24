@@ -1,8 +1,11 @@
 import { Injectable } from "@nestjs/common";
 import { TypeOrmModuleOptions, TypeOrmOptionsFactory } from "@nestjs/typeorm";
 import * as config from 'config'
+import { BankTransactionObject } from '../entities'
 
 const dbConfig = config.get('db');
+
+
 
 @Injectable()
 export class TypeOrmConfigService implements TypeOrmOptionsFactory {
@@ -15,7 +18,7 @@ export class TypeOrmConfigService implements TypeOrmOptionsFactory {
       password: process.env.RDS_PASSWORD || dbConfig.password,
       database: process.env.RDS_DB_NAME || dbConfig.database,
       url: process.env.URL_PRD, 
-      entities: [__dirname + '/../**/*.entity.{js,ts}'],
+      entities: [BankTransactionObject],
       synchronize: process.env.TYPEORM_SYNC || dbConfig.synchronize,
     }
   }
