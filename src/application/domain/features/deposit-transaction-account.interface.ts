@@ -1,5 +1,4 @@
-import { CurrencyEnum } from './currency-enum-transaction-account'
-import { BankServiceEnum } from './objects-enum-transaction-account'
+import { BankTransactionObject } from 'src/infra/database/entities'
 
 export interface DepositTransactionAccountInterface {
   perform: (params: DepositTransactionAccount.Input) => Promise<DepositTransactionAccount.Output>
@@ -7,30 +6,9 @@ export interface DepositTransactionAccountInterface {
 
 export namespace DepositTransactionAccount {
   export type Input = {
-    destination: {
-      vatNumber: string
-    },
-    amount: {
-      currency: string,
-      value: number
-    },
-    description?: string
+    vatNumber: string
+    currency: string
+    value: number
   }
-  export type Output = {
-    id: string,
-    object: string,
-    amount: {
-      currency: string,
-      value: number
-    },
-   created: number,
-   transactionAccountInfos: {
-     source: {
-      vatNumber: string
-     },
-     destination: {
-       vatNumher: string
-     }
-   }
-  } | Error
+  export type Output = BankTransactionObject[] | Error
 }
