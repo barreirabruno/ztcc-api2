@@ -6,14 +6,9 @@ export interface DepositTransactionAccountInterface {
 
 export namespace DepositTransactionAccount {
   export type Input = {
-    destination: {
-      vatNumber: string
-    },
-    amount: {
-      currency: string,
-      value: number
-    },
-    description?: string
+    vatNumber: string
+    currency: string
+    value: number
   }
   export type Output = BankTransactionObject[] | Error
 }
