@@ -1,12 +1,8 @@
 export const controllerParamsMock = {
-  "destination": {
-      "vatNumber": "0000000000"
-  },
-  "amount": {
-      "currency": "USD",
-      "value": 225.00
-  },
-  "description": "any_description_for_this_transfer"
+    "vatNumberSource": "0000000000",
+    "vatNumberDestination": "0000000000",
+    "currency": "USD",
+    "value": 225.00
 }
 
 export const controllerResponseMock = {
