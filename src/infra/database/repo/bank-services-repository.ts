@@ -3,12 +3,12 @@ import { Connection } from "typeorm";
 import { BankTransactionObject } from "../entities/bank-transaction-object.entity";
 
 @Injectable()
-export class TransactionRepository {
+export class BankServicesRepository {
   constructor(
     private connection: Connection
   ) {}
 
-  async executeBankTransaction(transaction: any): Promise<BankTransactionObject[]>  {
+  async execute(transaction: any): Promise<BankTransactionObject[]>  {
     const newTransaction = this.connection.getRepository(BankTransactionObject).create(transaction)
     const queryRunner = this.connection.createQueryRunner()
 
