@@ -1,6 +1,6 @@
 export const controllerParamsMock = {
     "vatNumberSource": "0000000000",
-    "vatNumberDestination": "0000000000",
+    "vatNumberDestination": "11111111111",
     "currency": "USD",
     "value": 225.00
 }
