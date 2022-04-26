@@ -10,7 +10,7 @@ export class BankServicesAPIController {
     private readonly bankServicesAPI: BankServicesAPIService
   ) {}
 
-  @Post('deposit')
+  @Post('services')
   @UseFilters(ExceptionErrorHandler)
   async postDepositTransactionAccount(@Body() httpRequest: BankServicesAPIDTO): Promise<DepositTransactionAccount.Output> {
     const service = await this.bankServicesAPI.perform(httpRequest)
