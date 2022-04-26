@@ -12,7 +12,7 @@ export class BankServicesAPIDTO {
   @IsOptional()
   @MinLength(11)
   @MaxLength(11)
-  vatNumberDestination: string
+  vatNumberDestination?: string
 
   @IsString()
   @IsNotEmpty()
