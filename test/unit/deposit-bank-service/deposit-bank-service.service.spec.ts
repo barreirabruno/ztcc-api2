@@ -91,6 +91,23 @@ describe('BankServicesAPIService', () => {
     expect(spyApiCall.mock.calls[0][0]).toEqual(controllerParamsMockDPTS.vatNumberSource)
   })
 
+  it('should call BankServicesRepository with DPST(deposit) correct params', async () => {
+    const spyDatabaseRepo = jest.spyOn(bankServicesRepository, 'execute')
+    mockTransactionRepository.execute.mockResolvedValueOnce(controllerResponseMockTRS)
+    
+    await service.perform(controllerParamsMockDPTS)
+
+    expect(spyDatabaseRepo).toHaveBeenCalled()
+    expect(spyDatabaseRepo).toHaveBeenCalledTimes(1)
+    expect(spyDatabaseRepo).toHaveBeenCalledWith({
+      transactionObject: "deposit",
+      currency: controllerParamsMockDPTS.currency,
+      destination: controllerParamsMockDPTS.vatNumberSource,
+      source: controllerParamsMockDPTS.vatNumberSource,
+      value: controllerParamsMockDPTS.value,
+    })
+  })
+
   it('should throw if account status is not available', async () => {
     const data = { status: 'unavailable' }
     const response: AxiosResponse<any> = {
