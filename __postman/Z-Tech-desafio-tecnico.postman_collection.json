@@ -79,7 +79,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"vatNumberSource\": \"35719033157\",\n    \"currency\": \"BRL\",\n    \"value\": 144.34\n}",
+							"raw": "{\n    \"vatNumberSource\": \"35719033157\",\n    \"currency\": \"BRL\",\n    \"value\": 30.34\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -109,7 +109,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"vatNumberSource\": \"35719033157\",\n    \"vatNumberDestination\": \"14743980810\",\n    \"currency\": \"BRL\",\n    \"value\": 155.66\n}",
+							"raw": "{\n    \"vatNumberSource\": \"35719033157\",\n    \"vatNumberDestination\": \"14743980810\",\n    \"currency\": \"BRL\",\n    \"value\": 200.69\n}",
 							"options": {
 								"raw": {
 									"language": "json"
