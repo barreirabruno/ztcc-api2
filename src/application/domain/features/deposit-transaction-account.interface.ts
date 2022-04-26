@@ -6,7 +6,8 @@ export interface DepositTransactionAccountInterface {
 
 export namespace DepositTransactionAccount {
   export type Input = {
-    vatNumber: string
+    vatNumberSource: string
+    vatNumberDestination?: string
     currency: string
     value: number
   }

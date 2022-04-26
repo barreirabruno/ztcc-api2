@@ -1,13 +1,13 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { DepositBankServiceModule } from './deposit-bank-service/deposit-bank-service.module';
+import { BankServicesAPI } from './bank-services-api/bank-services-api.module';
 import { ConfigModule } from '@nestjs/config';
 import { TypeOrmConfigService } from './infra/database/config/typeorm.config';
 
 @Module({
   imports: [
     ConfigModule.forRoot({ isGlobal: true}),
-    DepositBankServiceModule,
+    BankServicesAPI,
     TypeOrmModule.forRootAsync({
       useClass: TypeOrmConfigService
     })

@@ -1,28 +1,37 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { RequestTransactionAccountApiService } from '../../../src/infra/http/request-transaction-account-api.service';
-import { DepositBankService } from '../../../src/deposit-bank-service/deposit-bank-service.service';
-import { controllerParamsMock, controllerResponseMock } from '../../mocks/e2e';
+import { BankServicesAPIService } from '../../../src/bank-services-api/bank-services-api.service';
+import { BankServicesRepository } from '../../../src/infra/database/repo/bank-services-repository';
+import { controllerParamsMockDPTS, controllerParamsMockTRSF, controllerResponseMockDPST, controllerResponseMockTRS } from '../../mocks/e2e';
 import { AxiosResponse } from 'axios';
 
-describe('DepositBankServiceService', () => {
-  let service: DepositBankService;
+describe('BankServicesAPIService', () => {
+  let service: BankServicesAPIService;
   let transactionAccountApiService: RequestTransactionAccountApiService
+  let bankServicesRepository: BankServicesRepository
 
   const mockDepositBankService = {
     execute: jest.fn()
   }
 
+  const mockTransactionRepository= {
+    execute: jest.fn()
+  }
+
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
-      providers: [DepositBankService, {
+      providers: [BankServicesAPIService, {
         provide: RequestTransactionAccountApiService,
         useValue: mockDepositBankService
+      }, {
+        provide: BankServicesRepository,
+        useValue: mockTransactionRepository
       }],
     }).compile();
 
-    service = module.get<DepositBankService>(DepositBankService);
     transactionAccountApiService = module.get<RequestTransactionAccountApiService>(RequestTransactionAccountApiService)
-
+    bankServicesRepository = module.get<BankServicesRepository>(BankServicesRepository)
+    service = module.get<BankServicesAPIService>(BankServicesAPIService);
 
     const data = { status: 'available' }
     const response: AxiosResponse<any> = {
@@ -43,14 +52,60 @@ describe('DepositBankServiceService', () => {
     expect(service).toBeDefined();
   });
 
-  it('should call RequestTransactionAccountApiService with correct params', async () => {
+  it('should call RequestTransactionAccountApiService to execute TRSF(transfer) with correct params', async () => {
     const spyApiCall = jest.spyOn(transactionAccountApiService, 'execute')
 
-    await service.perform(controllerParamsMock)
+    await service.perform(controllerParamsMockTRSF)
+
+    expect(spyApiCall).toHaveBeenCalled()
+    expect(spyApiCall).toHaveBeenCalledTimes(2)
+    expect(spyApiCall.mock.calls[0][0]).toEqual(controllerParamsMockTRSF.vatNumberSource)
+    expect(spyApiCall.mock.calls[1][0]).toEqual(controllerParamsMockTRSF.vatNumberDestination)
+  })
+
+  it('should call BankServicesRepository with TRFS(transfer) correct params', async () => {
+    const spyDatabaseRepo = jest.spyOn(bankServicesRepository, 'execute')
+    mockTransactionRepository.execute.mockResolvedValueOnce(controllerResponseMockTRS)
+    
+    await service.perform(controllerParamsMockTRSF)
+
+
+    expect(spyDatabaseRepo).toHaveBeenCalled()
+    expect(spyDatabaseRepo).toHaveBeenCalledTimes(1)
+    expect(spyDatabaseRepo).toHaveBeenCalledWith({
+      transactionObject: "transfer",
+      currency: controllerParamsMockTRSF.currency,
+      destination: controllerParamsMockTRSF.vatNumberDestination,
+      source: controllerParamsMockTRSF.vatNumberSource,
+      value: controllerParamsMockTRSF.value,
+    })
+  })
+
+  it('should call RequestTransactionAccountApiService to execute DPST(deposit) with correct params', async () => {
+    const spyApiCall = jest.spyOn(transactionAccountApiService, 'execute')
+
+    await service.perform(controllerParamsMockDPTS)
 
     expect(spyApiCall).toHaveBeenCalled()
     expect(spyApiCall).toHaveBeenCalledTimes(1)
-    expect(spyApiCall).toHaveBeenCalledWith(controllerParamsMock.destination.vatNumber)
+    expect(spyApiCall.mock.calls[0][0]).toEqual(controllerParamsMockDPTS.vatNumberSource)
+  })
+
+  it('should call BankServicesRepository with DPST(deposit) correct params', async () => {
+    const spyDatabaseRepo = jest.spyOn(bankServicesRepository, 'execute')
+    mockTransactionRepository.execute.mockResolvedValueOnce(controllerResponseMockTRS)
+    
+    await service.perform(controllerParamsMockDPTS)
+
+    expect(spyDatabaseRepo).toHaveBeenCalled()
+    expect(spyDatabaseRepo).toHaveBeenCalledTimes(1)
+    expect(spyDatabaseRepo).toHaveBeenCalledWith({
+      transactionObject: "deposit",
+      currency: controllerParamsMockDPTS.currency,
+      destination: controllerParamsMockDPTS.vatNumberSource,
+      source: controllerParamsMockDPTS.vatNumberSource,
+      value: controllerParamsMockDPTS.value,
+    })
   })
 
   it('should throw if account status is not available', async () => {
@@ -62,14 +117,15 @@ describe('DepositBankServiceService', () => {
       status: 200,
       statusText: 'OK',
     };
-    mockDepositBankService.execute.mockResolvedValueOnce(response)
-    const request = await service.perform(controllerParamsMock)
+    mockDepositBankService.execute.mockResolvedValue(response)
+    const request = service.perform(controllerParamsMockDPTS)
 
-    expect(request).toEqual(new Error("Could not process the transaction by now. Please contact support"))
+    await expect(request).rejects.toThrow()
   })
 
   it('should perform a deposit transaction with success', async () => {
-    const request = await service.perform(controllerParamsMock)
-    expect(request).toEqual(controllerResponseMock)
+    mockTransactionRepository.execute.mockResolvedValueOnce(controllerResponseMockDPST)
+    const request = await service.perform(controllerParamsMockDPTS)
+    expect(request).toEqual(controllerResponseMockDPST)
   })
 });
