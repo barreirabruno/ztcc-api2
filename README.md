@@ -23,6 +23,12 @@ This service is built with:
 
 ## Run Test Suite
 Run all tests with:
+
+1. Install dependencies
+```
+npm install
+```
+2. Run tests command
 ```
 npm run test
 ```
@@ -37,8 +43,8 @@ docker compose up
 ```
 
 ## Features available
-    - [] Deposit a value to a transaction account
-    - [] Transfer a value between transaction account
+    - [x] Deposit a value to a transaction account
+    - [x] Transfer a value between transaction account
 
 ## Features Roadmap
     - [] Add tax fields to TransactionObjectModel
