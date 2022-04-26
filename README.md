@@ -20,6 +20,8 @@ This service is built with:
 - Jest
 - TypeORM
 - Postgres
+- Docker
+- Heroku
 
 ## Run Test Suite
 Run all tests with:
