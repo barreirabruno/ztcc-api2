@@ -1,10 +1,10 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { controllerParamsMock, controllerResponseMock } from '../../mocks/e2e';
-import { DepositBankServiceController } from '../../../src/deposit-bank-service/deposit-bank-service.controller';
-import { DepositBankService } from '../../../src/deposit-bank-service/deposit-bank-service.service';
+import { BankServicesAPIController } from '../../../src/bank-services-api/bank-services-api.controller';
+import { BankServicesAPIService } from '../../../src/bank-services-api/bank-services-api.service';
 
 describe('DepositBankServiceController', () => {
-  let controller: DepositBankServiceController;
+  let controller: BankServicesAPIController;
 
   const mockDepositService = {
     perform: jest.fn()
@@ -12,14 +12,14 @@ describe('DepositBankServiceController', () => {
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
-      controllers: [DepositBankServiceController],
+      controllers: [BankServicesAPIController],
       providers: [{
-        provide: DepositBankService,
+        provide: BankServicesAPIService,
         useValue: mockDepositService
       }]
     }).compile();
 
-    controller = module.get<DepositBankServiceController>(DepositBankServiceController);
+    controller = module.get<BankServicesAPIController>(BankServicesAPIController);
   });
 
   it('should be defined', () => {
